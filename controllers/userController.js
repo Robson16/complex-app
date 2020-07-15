@@ -11,7 +11,7 @@ exports.mustBeLoggedIn = function(req, res, next) {
     }
 }
 
-exports.login = function (req, res) {
+exports.login = function(req, res) {
     let user = new User(req.body);
     user.login()
         .then(function(result) {
@@ -32,13 +32,13 @@ exports.login = function (req, res) {
         });
 }
 
-exports.logout = function (req, res) {
+exports.logout = function(req, res) {
     req.session.destroy(function() {
         res.redirect('/');
     });
 }
 
-exports.register = function (req, res) {
+exports.register = function(req, res) {
     let user = new User(req.body);
     user.register()
         .then(() => {
@@ -61,7 +61,7 @@ exports.register = function (req, res) {
         });    
 }
 
-exports.home = function (req, res) {
+exports.home = function(req, res) {
     if (req.session.user) {
         res.render('home-dashboard');
     } else {
@@ -70,4 +70,24 @@ exports.home = function (req, res) {
             regErrors: req.flash('regErrors'),
         });
     }
+}
+
+exports.ifUserExists = function(req, res, next) {
+    User.findByUsername(req.params.username)
+        .then(function(userDocument) {
+            req.profileUser = userDocument;
+            next();
+        })
+        .catch(function() {
+            res.render('404');
+        });
+}
+
+exports.profilePostsScreen = function(req, res) {
+    res.render('profile', {
+        profileUsername: req.profileUser.username,
+        profileAvatar: req.profileUser.avatar,
+    });
+
+    console.log(req.profileUser.avatar);
 }

@@ -103,4 +103,34 @@ User.prototype.getAvatar = function() {
     this.avatar = `https://gravatar.com/avatar/${md5(this.data.email)}?s=128`;
 }
 
+User.findByUsername = function(username) {
+    return new Promise(function(resolve, reject) {
+        if (typeof(username) != "string") {
+            reject();
+            return;
+        }
+
+        usersCollection
+            .findOne({
+                username: username,
+            })
+            .then(function(userDoc) {
+                if (userDoc) {
+                    userDoc = new User(userDoc, true);
+                    userDoc = {
+                        _id: userDoc.data._id,
+                        username: userDoc.data.username,
+                        avatar: userDoc.data.avatar,
+                    };
+                    resolve(userDoc);
+                } else {
+                    reject();
+                }
+            })
+            .catch(function(error) {
+                reject(error);
+            });
+    });
+}
+
 module.exports = User;
