@@ -17,5 +17,8 @@ router.get('/profile/:username', userConstroller.ifUserExists, userConstroller.p
 router.get('/create-post', userConstroller.mustBeLoggedIn, postController.viewCreateScreen);
 router.post('/create-post', userConstroller.mustBeLoggedIn, postController.create);
 router.get('/post/:id', postController.viewSingle);
+router.get('/post/:id/edit', userConstroller.mustBeLoggedIn, postController.viewEditScreen);
+router.post('/post/:id/edit', userConstroller.mustBeLoggedIn, postController.edit);
+router.post('/post/:id/delete', userConstroller.mustBeLoggedIn, postController.delete);
 
 module.exports = router;
