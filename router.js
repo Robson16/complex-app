@@ -20,5 +20,6 @@ router.get('/post/:id', postController.viewSingle);
 router.get('/post/:id/edit', userConstroller.mustBeLoggedIn, postController.viewEditScreen);
 router.post('/post/:id/edit', userConstroller.mustBeLoggedIn, postController.edit);
 router.post('/post/:id/delete', userConstroller.mustBeLoggedIn, postController.delete);
+router.post('/search', postController.search);
 
 module.exports = router;
