@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs');
-const usersCollection = require('../db').db().collection('users');
 const validator = require('validator');
 const md5 = require('md5');
+
+const usersCollection = require('../db').db().collection('users');
 
 let User = function(data, getAvatar) {
     this.data = data;

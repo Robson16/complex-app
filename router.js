@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userConstroller = require('./controllers/userController');
 const postController = require('./controllers/postController');
+const followController = require('./controllers/followController');
 
 // user related routes
 router.get('/', userConstroller.home);
@@ -11,7 +12,9 @@ router.post('/login', userConstroller.login);
 router.post('/logout', userConstroller.logout);
 
 // profile related routes
-router.get('/profile/:username', userConstroller.ifUserExists, userConstroller.profilePostsScreen);
+router.get('/profile/:username', userConstroller.ifUserExists, userConstroller.sharedProfileData, userConstroller.profilePostsScreen);
+router.get('/profile/:username/followers', userConstroller.ifUserExists, userConstroller.sharedProfileData, userConstroller.profileFollowersScreen);
+router.get('/profile/:username/following', userConstroller.ifUserExists, userConstroller.sharedProfileData, userConstroller.profileFollowingScreen);
 
 // post related routes
 router.get('/create-post', userConstroller.mustBeLoggedIn, postController.viewCreateScreen);
@@ -21,5 +24,9 @@ router.get('/post/:id/edit', userConstroller.mustBeLoggedIn, postController.view
 router.post('/post/:id/edit', userConstroller.mustBeLoggedIn, postController.edit);
 router.post('/post/:id/delete', userConstroller.mustBeLoggedIn, postController.delete);
 router.post('/search', postController.search);
+
+// follow related routes
+router.post('/addFollow/:username', userConstroller.mustBeLoggedIn, followController.addFollow);
+router.post('/removeFollow/:username', userConstroller.mustBeLoggedIn, followController.removeFollow);
 
 module.exports = router;
