@@ -10,6 +10,8 @@ router.get('/', userConstroller.home);
 router.post('/register', userConstroller.register);
 router.post('/login', userConstroller.login);
 router.post('/logout', userConstroller.logout);
+router.post('/doesUsernameExist', userConstroller.doesUsernameExist);
+router.post('/doesEmailExist', userConstroller.doesEmailExist);
 
 // profile related routes
 router.get('/profile/:username', userConstroller.ifUserExists, userConstroller.sharedProfileData, userConstroller.profilePostsScreen);
